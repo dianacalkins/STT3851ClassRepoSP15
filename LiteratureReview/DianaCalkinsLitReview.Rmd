@@ -1,0 +1,30 @@
+---
+title: "Literature Review"
+author: 
+date: "Friday, January 30, 2015"
+output: html_document
+bibliography: Items.bib
+nocite: |
+  @bryant_health_1969, @ebener_wealth_2005, @bonini_cross-national_2007, @parkin_aggregate_1987, @chung_welfare_2007, @murphy_value_2005, @mackenbach_socioeconomic_1997
+---
+
+I have decided to use the data set 'Gapminder' to analyze the relationships between wealth and health across nations. To find articles to backup my research, I am used keywords, such as _national health_, _poverty rate_, _GDP_, _third world countries_, _employment rate_, _population size_, _percent debt_, _inflation_, and _quality of life_. While reading scholarly articles/abstracts, I recognized there is little said about the relationship between the size of a nation and qualtiy of life. I plan to explore this question a bit deeper, identifying indicators of why a population is large/small and how it affects the health and wealth of the population of the same nation.
+
+Other themes that appeared frequently while researching:
+
+1. Health researchers rarely measure accumulated wealth to reflect socioeconomic status. In most studies, greater wealth was associated with better health, even after adjusting for other socioeconomic status measures. The findings appeared most consistent when using detailed wealth measures on specific assets and debts, rather than a single question. 
+
+2. Found that higher net worth was associated with decreased risk of adverse health events. While most results showed a positive relationship between wealth and health, not all did, and a few showed an inverse relationship. This variation may reflect the underlying relationships between wealth and different health and health-related outcomes; it seems likely that wealth would not be uniformly related to all health outcomes across the life span. 
+
+3. The global under-five mortality rate has declined by 66.7% since 1960.
+
+4. Did not find any significant relationships between asset level and BMI. 
+
+5.While gender is often used as a covariate in studies of wealth, few U.S. studies have focused on gender differences in the relationship between wealth and health. One problem in focusing on gender may be that wealth is often measured from a household perspective. Genderstratified analyses revealed varying patterns of association between wealth and health outcomes.Therefore, no conclusion was reached about wealth and health in relation to gender.
+
+
+I have decided to further focus my question by examining whether the association between socioeconomic status and health differs based on population size in congruence with national wealth. I am wondering if a large population size depeletes socioeconomic status and health, while increasing national wealth. I add relevant socioeconomic status, national wealth,  health, education, and employment indicators to my personal codebook as well as demographic measures, such as age, gender, and nationality.
+
+
+
+#References
