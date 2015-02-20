@@ -11,41 +11,40 @@ library(ggplot2)
 library(descr)
 ```
 
-Three categorical variables relevant to *student health* are `H1SU1-H1SU3` from the `AddHealth` data set.  The `AddHealth` data set is loaded from the `PDS` package.  Using the `dplyr` package, a new data frame `NDF` containing only three variables after renaming `H1SU1-H1SU3` to `ConsideredSuicide`, `TimesAttemptedSuicide`, and `TreatedByDoctor` is created.
+Three categorical variables relevant to *health and wealth* are `incomeperperson,	lifeexpectancy,	employrate` from the `Gapminder` data set.  The `Gapminder` data set is loaded from the `PDS` package.  Using the `dplyr` package, a new data frame `HNW` containing only three variables, is created.
 
 
 ```{r}
 library(PDS)
 library(dplyr)
-NDF <- AddHealth %>%
-  rename(ConsideredSuicide = H1SU1, TimesAttemptedSuicide = H1SU2, TreatedByDoctor = H1SU3) %>%
-  select(ConsideredSuicide, TimesAttemptedSuicide, TreatedByDoctor)
-head(NDF)
+HNW <- gapminder %>% 
+  select(incomeperperson,  lifeexpectancy,	employrate)
+head(HNW)
 ```
 
-Responses of `9` for question `ConsideredSuicide` are recoded to `NA`. 
+Responses of `23` for question `incomeperperson` are recoded to `NA`. Responses of `22` for question `lifeexpectancy` are recoded to `NA`. Responses of `35` for question `employrate` are recoded to `NA`. 
 
 ```{r}
-xtabs(~ConsideredSuicide, data = NDF)
-NDF$ConsideredSuicide[NDF$ConsideredSuicide == 9] <- NA
-xtabs(~ConsideredSuicide, data = NDF)
-NDF$ConsideredSuicide <- factor(NDF$ConsideredSuicide, labels = c("No", "Yes", "Refused", "Don't Know"))[, drop = TRUE]
-xtabs(~ConsideredSuicide, data = NDF)
-summary(NDF$ConsideredSuicide)
-freq(NDF$ConsideredSuicide)
-freq(NDF$ConsideredSuicide, main = "Did you ever seriously think about committing suicide?")
-ggplot(data = NDF, aes(x = ConsideredSuicide, fill = ConsideredSuicide)) + 
+xtabs(~incomeperperson, data = HNW)
+HNW$incomeperperson[HNW$incomeperperson == 23] <- NA
+xtabs(~incomeperperson, data = HNW)
+HNW$incomeperperson <- factor(HNW$incomeperperson, )[, drop = TRUE]
+xtabs(~incomeperperson, data = HNW)
+summary(HNW$incomeperperson)
+freq(HNW$incomeperperson)
+freq(HNW$incomeperperson, main = "National Income Per Person")
+ggplot(data = HNW, aes(x = incomeperperson, fill = incomeperperson)) + 
   geom_bar() + 
-  labs(title = "Did you ever seriously think about committing suicide?", x = "") +
+  labs(title = "National Income Per Person", x = "") +
   theme_bw() +
-  guides(fill = guide_legend(title = "Have You\nConsidered\nSuicide?"))
+  guides(fill = guide_legend(title = "National Income Per Person"))
 ```
 
 
 Changing the $y$-axis to percent:
 
 ```{r}
-ggplot(data = NDF, aes(x = ConsideredSuicide, y = (..count..)/sum(..count..), fill = ConsideredSuicide)) + 
+ggplot(data = HNW, aes(x = incomeperperson, y = (..count..)/sum(..count..), fill = incomeperperson)) + 
   geom_bar() + 
   labs(title = "Did you ever seriously think about committing suicide?", x = "") +
   theme_bw() +
@@ -56,19 +55,19 @@ ggplot(data = NDF, aes(x = ConsideredSuicide, y = (..count..)/sum(..count..), fi
 Another approach to graph the categorical variables is to use the base function `barplot()`.
 
 ```{r}
-barplot(xtabs(~ConsideredSuicide, data = NDF), col = c("green", "red", "orange", "brown"))
-barplot(prop.table(xtabs(~ConsideredSuicide, data = NDF)), col = c("green", "red", "orange", "brown"))
+barplot(xtabs(~incomeperperson, data = HNW), col = c("green", "red", "orange", "brown"))
+barplot(prop.table(xtabs(~incomeperperson, data = HNW)), col = c("green", "red", "orange", "brown"))
 ```
 
-Question `TimesAttemptedSuicide` asks the 821 respondents from `ConsideredSuicide` "how many times did you attempt suicide?"  Responses of 7 are recoded to `NA`.
+Question `TimesAttemptedSuicide` asks the 821 respondents from `incomeperperson` "how many times did you attempt suicide?"  Responses of 7 are recoded to `NA`.
 
 ```{r}
-xtabs(~TimesAttemptedSuicide, data = NDF)
-NDF$TimesAttemptedSuicide[NDF$TimesAttemptedSuicide==7] <- NA
-xtabs(~TimesAttemptedSuicide, data = NDF)
-NDF$TimesAttemptedSuicide <- factor(NDF$TimesAttemptedSuicide)[, drop = TRUE]
-xtabs(~TimesAttemptedSuicide, data = NDF)
-NDF$TimesAttemptedSuicide <- factor(NDF$TimesAttemptedSuicide, 
+xtabs(~TimesAttemptedSuicide, data = HNW)
+HNW$TimesAttemptedSuicide[HNW$TimesAttemptedSuicide==7] <- NA
+xtabs(~TimesAttemptedSuicide, data = HNW)
+HNW$TimesAttemptedSuicide <- factor(HNW$TimesAttemptedSuicide)[, drop = TRUE]
+xtabs(~TimesAttemptedSuicide, data = HNW)
+HNW$TimesAttemptedSuicide <- factor(HNW$TimesAttemptedSuicide, 
                           labels = c("0 times", "1 time", "2 or 3 times", 
                                      "4 or 5 times", ">= 6 times", "refused", 
                                      "don't know"))
@@ -77,20 +76,20 @@ NDF$TimesAttemptedSuicide <- factor(NDF$TimesAttemptedSuicide,
 
 
 ```{r}
-summary(NDF$TimesAttemptedSuicide)
-xtabs(~TimesAttemptedSuicide, data = NDF)
-NAS <- sum(xtabs(~TimesAttemptedSuicide, data = NDF)[2:5])  # number that attempted suicide
+summary(HNW$TimesAttemptedSuicide)
+xtabs(~TimesAttemptedSuicide, data = HNW)
+NAS <- sum(xtabs(~TimesAttemptedSuicide, data = HNW)[2:5])  # number that attempted suicide
 NAS
-freq(NDF$TimesAttemptedSuicide, main = "How many times did you actually attempt suicide?")
-ggplot(data = NDF, aes(x = TimesAttemptedSuicide)) + 
+freq(HNW$TimesAttemptedSuicide, main = "How many times did you actually attempt suicide?")
+ggplot(data = HNW, aes(x = TimesAttemptedSuicide)) + 
   geom_bar(fill = "maroon") + 
   labs(title = "How many times did you actually attempt suicide?", x= "") +
   theme_bw() 
-ggplot(data = na.omit(NDF[ , "TimesAttemptedSuicide", drop = FALSE]), aes(x = TimesAttemptedSuicide)) + 
+ggplot(data = na.omit(HNW[ , "TimesAttemptedSuicide", drop = FALSE]), aes(x = TimesAttemptedSuicide)) + 
   geom_bar(fill = "plum") + 
   labs(title = "How many times did you actually attempt suicide?", x = "") +
   theme_bw() 
-ggplot(data = na.omit(NDF[ , "TimesAttemptedSuicide", drop = FALSE]), 
+ggplot(data = na.omit(HNW[ , "TimesAttemptedSuicide", drop = FALSE]), 
        aes(x = TimesAttemptedSuicide, fill = TimesAttemptedSuicide)) + 
   geom_bar() + 
   labs(title = "How many times did you actually attempt suicide?", x = "") +
@@ -101,11 +100,11 @@ ggplot(data = na.omit(NDF[ , "TimesAttemptedSuicide", drop = FALSE]),
 Question `TreatedByDoctor` asks of the `r NAS` that attempted suicide "Did you require treatment by either a nurse or doctor?"  A response of 7 should be recoded to `NA`.
 
 ```{r}
-NDF$TreatedByDoctor[NDF$TreatedByDoctor == 7] <- NA
-NDF$TreatedByDoctor <- factor(NDF$TreatedByDoctor, labels = c("No", "Yes"))[, drop = TRUE]
-xtabs(~TreatedByDoctor, data = NDF)
-freq(NDF$TreatedByDoctor, main = "Did you require treatment by either a nurse or doctor?")
-ggplot(data = na.omit(NDF[ , "TreatedByDoctor", drop = FALSE]), aes(x = TreatedByDoctor, fill = TreatedByDoctor)) + 
+HNW$TreatedByDoctor[HNW$TreatedByDoctor == 7] <- NA
+HNW$TreatedByDoctor <- factor(HNW$TreatedByDoctor, labels = c("No", "Yes"))[, drop = TRUE]
+xtabs(~TreatedByDoctor, data = HNW)
+freq(HNW$TreatedByDoctor, main = "Did you require treatment by either a nurse or doctor?")
+ggplot(data = na.omit(HNW[ , "TreatedByDoctor", drop = FALSE]), aes(x = TreatedByDoctor, fill = TreatedByDoctor)) + 
   geom_bar() + 
   labs(title = "Did you require treatment by either a nurse or doctor?", x = "") +
   theme_bw() +
